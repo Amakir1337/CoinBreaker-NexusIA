@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🎮 NexusBreaker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <!-- Polices pour le jeu -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Orbitron', sans-serif; }
+    /* Facile à tester : tu peux changer la famille pour tester la différence */
+    .font-press-start { font-family: 'Press Start 2P', monospace !important; }
+    .font-orbitron { font-family: 'Orbitron', sans-serif !important; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-purple-950 min-h-screen flex flex-col items-center justify-center">
+
+  <div class="w-full max-w-2xl flex flex-col items-center">
+    <h1 class="mb-2 text-4xl sm:text-5xl font-bold text-purple-400 drop-shadow-lg tracking-wider font-orbitron">
+      🎮 NexusBreaker
+    </h1>
+    
+    <div class="flex items-center mb-2">
+      <input type="checkbox" id="sound-toggle" class="mr-2" checked>
+      <label for="sound-toggle" class="text-gray-200 text-sm select-none cursor-pointer mr-6">Activer le son</label>
+      <input type="checkbox" id="cursor-toggle" class="mr-2" checked>
+      <label for="cursor-toggle" class="text-gray-200 text-sm select-none cursor-pointer">Afficher la souris</label>
+    </div>
+    
+    <div class="rounded-2xl shadow-2xl bg-gray-900 border-4 border-purple-700 p-2 flex flex-col items-center">
+      <!-- Le canvas Phaser s'affichera ici automatiquement -->
+    </div>
+
+    <footer class="mt-6 text-center text-gray-400 text-sm opacity-80 font-orbitron">
+      <span>© 2025 NexusIA</span> • 
+      <a href="https://dashboard.nexusia.fun/dashboard/" class="underline hover:text-purple-400 transition">Dashboard NexusIA</a>
+    </footer>
+  </div>
+  
+  <script src="levels.js"></script>
+  <script src="breakout.js"></script>
+  <script>
+  // Toggle son ON/OFF
+  document.getElementById('sound-toggle').addEventListener('change', function () {
+    isSoundOn = this.checked;
+  });
+  </script>
+  <script>
+  // Contrôle affichage du curseur
+document.getElementById('cursor-toggle').addEventListener('change', function () {
+  if (this.checked) {
+    document.querySelector('canvas').style.cursor = 'default';
+    // Optionnel : si tu veux uniquement sur le canvas Phaser :
+    // document.querySelector('canvas').style.cursor = 'default';
+  } else {
+    document.querySelector('canvas').style.cursor = 'none';
+    // Optionnel : pour juste le canvas :
+    // document.querySelector('canvas').style.cursor = 'none';
+  }
+});
+  </script>
+</body>
+</html>
