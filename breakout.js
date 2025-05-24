@@ -49,6 +49,21 @@ const brickColors = {
     6: 0xff99ff  // 🌸 rose
 };
 
+// ✅ Clamp la norme (vitesse totale) d'une balle à un minimum
+function clampVelocityNorm(ball, minSpeed = 140) {
+    if (!ball.body) return;
+    let vx = ball.body.velocity.x;
+    let vy = ball.body.velocity.y;
+    let speed = Math.sqrt(vx * vx + vy * vy);
+
+    // Si la balle est trop lente, on recalcule la direction mais avec la bonne vitesse mini
+    if (speed < minSpeed && speed > 0) {
+        let ratio = minSpeed / speed;
+        ball.body.velocity.x = vx * ratio;
+        ball.body.velocity.y = vy * ratio;
+    }
+}
+
 // 🎨 Texture dynamique des paddles
 function generatePaddleTextures(scene) {
     const widths = [60, 80, 120, 160, 200]; // petite, normale, grande
@@ -224,7 +239,7 @@ function hitBrick(ball, brick) {
         showNextLevelButton(this);     // 🟢 ensuite affiche le bouton
     }
     
-    if (Math.random() < 0.3) {
+    if (Math.random() < 0.10) {
         // Liste des bonus possibles
         const bonusOptions = [
             { texture: 'bonus_paddle_plus', type: 'paddle_plus' },
@@ -342,6 +357,9 @@ function catchBonus(paddle, bonusSprite) {
 function updateBallSpeed() {
     const baseSpeed = 300;
     const speedMultiplier = 1 + ballSpeedLevel * 0.4;
+    
+    const minSpeedX = 80;
+    const minSpeedY = 120;
 
     balls.forEach(b => {
         if (!b.body || b.getData('onPaddle')) return;
@@ -349,11 +367,12 @@ function updateBallSpeed() {
         // Calcule direction actuelle
         const angle = Phaser.Math.Angle.Between(0, 0, b.body.velocity.x, b.body.velocity.y);
         const newSpeed = baseSpeed * speedMultiplier;
+        
+        let vx = Math.cos(angle) * newSpeed;
+        let vy = Math.sin(angle) * newSpeed;
 
-        b.setVelocity(
-            Math.cos(angle) * newSpeed,
-            Math.sin(angle) * newSpeed
-        );
+        b.setVelocity(vx, vy);
+        clampVelocityNorm(b, 140); // 🔒 sécurité ultime !
     });
 }
 
@@ -387,12 +406,8 @@ function update() {
         // ✅ Sauter les balles pas encore lancées
         if (b.getData('onPaddle')) return;
 
-        // 🧰 Verrou de vitesse minimale horizontale
-        const minSpeed = 80;
-        if (Math.abs(b.body.velocity.x) < minSpeed) {
-            const sign = b.body.velocity.x >= 0 ? 1 : -1;
-            b.body.velocity.x = sign * minSpeed;
-        }
+        // 🔒 Clamp vitesse mini (norme globale)
+        clampVelocityNorm(b, 140);
     });
 
     if (balls.length === 0 && !isGameStopped) {
