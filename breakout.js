@@ -49,19 +49,16 @@ const brickColors = {
     6: 0xff99ff  // 🌸 rose
 };
 
-// ✅ Clamp la norme (vitesse totale) d'une balle à un minimum
-function clampVelocityNorm(ball, minSpeed = 140) {
+function forceBallSpeed(ball, speedTarget) {
     if (!ball.body) return;
     let vx = ball.body.velocity.x;
     let vy = ball.body.velocity.y;
-    let speed = Math.sqrt(vx * vx + vy * vy);
-
-    // Si la balle est trop lente, on recalcule la direction mais avec la bonne vitesse mini
-    if (speed < minSpeed && speed > 0) {
-        let ratio = minSpeed / speed;
-        ball.body.velocity.x = vx * ratio;
-        ball.body.velocity.y = vy * ratio;
-    }
+    let norm = Math.sqrt(vx * vx + vy * vy);
+    if (norm === 0) return;
+    // Recalcule vx/vy pour la nouvelle norme
+    let ratio = speedTarget / norm;
+    ball.body.velocity.x = vx * ratio;
+    ball.body.velocity.y = vy * ratio;
 }
 
 // 🎨 Texture dynamique des paddles
@@ -207,6 +204,9 @@ function hitBrick(ball, brick) {
     if (hp === -1) {
         // 🟨 Brique dorée (invincible)
         brick.setTint(0xffcc00); // petit effet de flash jaune
+        if (isSoundOn && ball.scene.sound) {
+            ball.scene.sound.play('briqueArgent');
+        }
         return;
     }
 
@@ -357,25 +357,13 @@ function catchBonus(paddle, bonusSprite) {
 function updateBallSpeed() {
     const baseSpeed = 300;
     const speedMultiplier = 1 + ballSpeedLevel * 0.4;
-    
-    const minSpeedX = 80;
-    const minSpeedY = 120;
+    const speedTarget = baseSpeed * speedMultiplier;
 
     balls.forEach(b => {
         if (!b.body || b.getData('onPaddle')) return;
-
-        // Calcule direction actuelle
-        const angle = Phaser.Math.Angle.Between(0, 0, b.body.velocity.x, b.body.velocity.y);
-        const newSpeed = baseSpeed * speedMultiplier;
-        
-        let vx = Math.cos(angle) * newSpeed;
-        let vy = Math.sin(angle) * newSpeed;
-
-        b.setVelocity(vx, vy);
-        clampVelocityNorm(b, 140); // 🔒 sécurité ultime !
+        forceBallSpeed(b, speedTarget);
     });
 }
-
 
 function createBall(scene, x, y, onPaddle = false) {
     const newBall = scene.physics.add.image(x, y, 'ball')
@@ -396,6 +384,11 @@ function createBall(scene, x, y, onPaddle = false) {
 function update() {
     if (isGameStopped || isLevelTransition) return;
 
+    // Calcul la vitesse cible selon les bonus de vitesse actuels
+    const baseSpeed = 300;
+    const speedMultiplier = 1 + ballSpeedLevel * 0.4;
+    const speedTarget = baseSpeed * speedMultiplier;
+
     balls.forEach((b, index) => {
         if (b.y > 600) {
             b.destroy();
@@ -406,8 +399,8 @@ function update() {
         // ✅ Sauter les balles pas encore lancées
         if (b.getData('onPaddle')) return;
 
-        // 🔒 Clamp vitesse mini (norme globale)
-        clampVelocityNorm(b, 140);
+        // 💥 Force la vraie vitesse de la balle à chaque frame (propre !)
+        forceBallSpeed(b, speedTarget);
     });
 
     if (balls.length === 0 && !isGameStopped) {
@@ -420,10 +413,9 @@ function update() {
     bonusGroup.getChildren().forEach(b => {
         if (b.y > 600) b.destroy();
     });
-    
+
     prevPaddleX = paddle.x;
 }
-
 
 function cleanScene(scene) {
     if (paddle) paddle.destroy();
