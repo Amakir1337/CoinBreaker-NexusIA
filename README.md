@@ -23,7 +23,9 @@ Breaker-NexusIA/
 │ ├─ GameOver.wav
 │ ├─ briqueArgent.wav
 │ ├─ brique.wav
-│ └─ bonus_nexuscoin.wav
+│ ├─ bonus_nexuscoin.wav
+│ └─ lib/
+│ ├─ phaser.min.js
 │
 ├─ breakout.js # Code principal du jeu (Phaser 3)
 ├─ levels.js # Fichier de configuration des niveaux (tableaux de briques)
