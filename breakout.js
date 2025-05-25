@@ -46,7 +46,8 @@ const brickColors = {
     3: 0xffff66, // 🟨 dorée (indestructible)
     4: 0x66ccff, // 🔵 bleu
     5: 0x66ff66, // 🟢 vert
-    6: 0xff99ff  // 🌸 rose
+    6: 0xff99ff,  // 🌸 rose
+    7: 0xff9900  // 🟧 orange (pour brique dorée fatiguée)
 };
 
 function forceBallSpeed(ball, speedTarget) {
@@ -90,7 +91,7 @@ function generateBrickTextures(scene) {
     }
 }
 
-let currentLevel = 0;
+let currentLevel = 24;
 
 function createBrick(x, y, type = 2) {
     const brick = bricks.create(x, y, `brick_${type}`);
@@ -105,8 +106,9 @@ function createBrick(x, y, type = 2) {
         brick.setData('hp', 2);
         brick.clearTint();
     } else if (type === 3) {
-        brick.setData('hp', -1);
-        brick.clearTint();
+        brick.setData('hp', 15);
+        brick.setTint(brickColors[3]); // jaune, on force la teinte de départ
+        //brick.clearTint();
     } else {
         brick.setData('hp', 1);
         brick.clearTint();
@@ -212,6 +214,15 @@ function hitBrick(ball, brick) {
 
     hp--;
     brick.setData('hp', hp);
+    
+    // 🔶 Si la brique est dorée (type 3), change la couleur quand il reste <= 5 coups
+    if (brick.getData('type') === 3 && hp > 0) {
+        if (hp <= 5) {
+            brick.setTexture('brick_7'); // orange
+        } else {
+            brick.setTexture('brick_3'); // jaune
+        }
+    }
 
     if (hp <= 0) {
         brick.disableBody(true, true);
