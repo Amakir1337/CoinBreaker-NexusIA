@@ -291,7 +291,7 @@ function catchBonus(paddle, bonusSprite) {
     
     if (type === 'nexuscoin') {
         // ➕ Ajoute 200 NexusCoins et met à jour l’affichage
-        nexusCoins += 200;
+        nexusCoins += 120;
         if (nexusCoinsText) nexusCoinsText.setText('NexusCoins : ' + nexusCoins);
         
         // 🔊 Joue le son bonus NexusCoin
@@ -336,7 +336,7 @@ function catchBonus(paddle, bonusSprite) {
         }
 
     } else if (type === 'multi_ball') {
-        const baseSpeed = 300;
+        const baseSpeed = 490;
         const speedMultiplier = 1 + ballSpeedLevel * 0.4;
 
         for (let i = 0; i < 2; i++) {
@@ -356,7 +356,7 @@ function catchBonus(paddle, bonusSprite) {
 }
 
 function updateBallSpeed() {
-    const baseSpeed = 300;
+    const baseSpeed = 490;
     const speedMultiplier = 1 + ballSpeedLevel * 0.4;
     const speedTarget = baseSpeed * speedMultiplier;
 
@@ -386,7 +386,7 @@ function update() {
     if (isGameStopped || isLevelTransition) return;
 
     // Calcul la vitesse cible selon les bonus de vitesse actuels
-    const baseSpeed = 300;
+    const baseSpeed = 490;
     const speedMultiplier = 1 + ballSpeedLevel * 0.4;
     const speedTarget = baseSpeed * speedMultiplier;
 
