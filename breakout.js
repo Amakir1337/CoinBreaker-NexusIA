@@ -521,6 +521,8 @@ function changePaddleSize(newWidth) {
 }
 
 function startLevel(scene) {
+    scene.input.removeAllListeners();
+    prevPaddleX = 400;
     isLevelTransition = false;
     isGameStopped = false; // ✅ On réactive update()
     nexusBonusCount = 0;
