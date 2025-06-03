@@ -1,0 +1,9 @@
+# Ignore Python embeddable distribution binaries
+python/*.exe
+python/*.pyd
+python/*.dll
+
+# Bytecode and caches
+__pycache__/
+*.pyc
+python/Lib/site-packages/
