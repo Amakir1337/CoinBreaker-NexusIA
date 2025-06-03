@@ -15,7 +15,7 @@ Breaker-NexusIA/
 │ ├─ bonus_speed_down.png
 │ ├─ bonus_multi_ball.png
 │ ├─ bonus_nexus.png
-│ ├─ NexusIA logo2.png
+│ ├─ NexusIA_logo2.png
 │ └─ sounds/
 │ ├─ paddle.wav
 │ ├─ paddleRetreci.wav
@@ -40,6 +40,9 @@ Breaker-NexusIA/
 
 - Ouvre le dossier **Breaker-NexusIA** sur ton PC (Windows).
 - Double-clique sur `lance serveur.bat` pour lancer un serveur local (Python requis).
+  Si le dossier `python/` est absent, téléchargez la distribution "Embeddable Zip"
+  correspondante sur [python.org](https://www.python.org/downloads/windows/) et
+  extrayez-la à la racine du projet.
 - Ouvre le raccourci `CoinBreaker - NexusIA.url` ou va sur [http://localhost:8000/](http://localhost:8000/) dans ton navigateur.
 - Joue ! (Utilise la souris pour déplacer le paddle, clique pour lancer la balle.)
 
