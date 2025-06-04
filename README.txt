@@ -8,6 +8,42 @@ Mini-jeu de type **Breakout / Arkanoid** développé avec Phaser 3, intégrant u
 
 Breaker-NexusIA/
 │
+├─ python/
+│   ├─ python.exe
+│   ├─ pythonw.exe
+│   ├─ python312.dll
+│   ├─ python3.dll
+│   ├─ vcruntime140.dll
+│   ├─ vcruntime140_1.dll
+│   ├─ LICENSE.txt
+│   ├─ pyexpat.pyd
+│   ├─ select.pyd
+│   ├─ unicodedata.pyd
+│   ├─ winsound.pyd
+│   ├─ _asyncio.pyd
+│   ├─ _bz2.pyd
+│   ├─ _ctypes.pyd
+│   ├─ _decimal.pyd
+│   ├─ _elementtree.pyd
+│   ├─ _hashlib.pyd
+│   ├─ _lzma.pyd
+│   ├─ _msi.pyd
+│   ├─ _multiprocessing.pyd
+│   ├─ _overlapped.pyd
+│   ├─ _queue.pyd
+│   ├─ _socket.pyd
+│   ├─ _sqlite3.pyd
+│   ├─ _ssl.pyd
+│   ├─ _uuid.pyd
+│   ├─ _wmi.pyd
+│   ├─ _zoneinfo.pyd
+│   ├─ libcrypto-3.dll
+│   ├─ libffi-8.dll
+│   ├─ libssl-3.dll
+│   ├─ sqlite3.dll
+│   ├─ python312.zip
+│   ├─ python312._pth
+│   ├─ python.cat
 ├─ assets/
 │ ├─ bonus_paddle_plus.png
 │ ├─ bonus_paddle_minus.png
