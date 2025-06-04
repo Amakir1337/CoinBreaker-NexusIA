@@ -290,8 +290,10 @@ function catchBonus(paddle, bonusSprite) {
     bonusSprite.destroy();
     
     if (type === 'nexuscoin') {
-        // ➕ Ajoute 200 NexusCoins et met à jour l’affichage
-        nexusCoins += 120;
+        // ➕ Ajoute un montant aléatoire de NexusCoins
+        const possibleValues = [40, 60, 80, 120, 160, 200];
+        const randomCoins = possibleValues[Math.floor(Math.random() * possibleValues.length)];
+        nexusCoins += randomCoins;
         if (nexusCoinsText) nexusCoinsText.setText('NexusCoins : ' + nexusCoins);
         
         // 🔊 Joue le son bonus NexusCoin
